@@ -19,7 +19,7 @@ class Solution {
                 if(prev!=null){
                 prev.next=temp.next;
                  temp=temp.next;
-            temp=prev.next;
+                
                 }
                 else{
                     head=temp.next;
