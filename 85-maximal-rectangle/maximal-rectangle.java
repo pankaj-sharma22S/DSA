@@ -1,42 +1,38 @@
 class Solution {
     public int maximalRectangle(char[][] matrix) {
-        int[][]mat=new int[matrix.length][matrix[0].length];
-        int r=matrix.length;
-        int c=matrix[0].length;
-        int maxArea=Integer.MIN_VALUE;
-    
-        for(int i=0; i<r; i++){
-            for(int j=0; j<c; j++){
-                mat[i][j]=matrix[i][j]-'0';
-            }
-        }
-        for(int i=1; i<r; i++){
-            for(int j=0; j<c; j++){
-                if(mat[i][j]==1){
-                mat[i][j]+=mat[i-1][j];
-            }
-            }
-        }
-        
-        for(int[]arr:mat){
-        Stack<Integer> s=new Stack<>();
-
-            for(int i=0; i<=arr.length; i++){
-                int temp=(i==arr.length)?0:arr[i];
-                while(!s.isEmpty()&& arr[s.peek()]>temp){
-                    int idx=s.pop();
-                    int height=arr[idx];
-                    int left=s.isEmpty()?-1:s.peek();
-                    int right=i;
-                    int width=right-left-1;
-                    maxArea=Math.max(maxArea,height*width);
+        if (matrix.length == 0) return 0;
+        int[] height=new int[matrix[0].length];
+        int n=matrix.length;
+        int m=matrix[0].length;
+        int ans=0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+               if (matrix[i][j] == '1') {
+                  height[j]++;
+                  }
+              else {
+                height[j] = 0;
                 }
-                if(i<arr.length){
-                s.push(i);
             }
+        Stack<Integer> stack=new Stack<>();
+        
+        for(int i2=0; i2<=m; i2++){
+            int curr=(i2==m)?0:height[i2];
+            while(!stack.isEmpty() && height[stack.peek()]>curr){
+                int h=height[stack.pop()];
+                int right=i2-1;
+                int left=stack.isEmpty()?0:stack.peek()+1;
+                int width=right-left+1;
+                System.out.println(right);
+                
+                System.out.println(width);
+                ans=Math.max(ans,h*width);
+            }
+            if(i2<m){
+                stack.push(i2);
             }
         }
-        return maxArea==Integer.MIN_VALUE?0:maxArea;
-        
+    }
+        return ans;
     }
 }
